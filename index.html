@@ -146,7 +146,9 @@ function up(e){
  if(!drag)return;drag=false;let r=c.getBoundingClientRect(),px=(e.clientX-r.left)*600/r.width,py=(e.clientY-r.top)*600/r.height,dx=px-sx,dy=py-sy,pull=Math.hypot(dx,dy);
  if(pull<18){$('message').textContent='توپ رو به عقب بکش و رها کن!';draw();return}
  shots++;let power=Math.min(1.4,Math.max(.8,pull/100));
- shot={x:ball.x,y:ball.y,vx:Math.max(-10,Math.min(10,-dx*.12*power)),vy=-Math.min(17,Math.max(9,Math.abs(dy)*.11+Math.abs(dx)*.035+8))*power,r:13,angle:0,trail:[]};
+
+shot={x:ball.x,y:ball.y,vx:Math.max(-10,Math.min(10,-dx*.12*power)),vy:-Math.min(17,Math.max(9,Math.abs(dy)*.11+Math.abs(dx)*.035+8))*power,r:13,angle:0,trail:[]};
+
  dd=shot.x<kx?-1:1;kd=dd;ks=Math.min(8.5,5.2+goals*.2+Math.random()*1.5);stats();draw()
 }
 $('start').onclick=start;$('reset').onclick=reset;c.addEventListener('pointerdown',down);c.addEventListener('pointermove',move);c.addEventListener('pointerup',up);c.addEventListener('pointercancel',()=>drag=false);
