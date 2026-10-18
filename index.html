@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#09265a">
+<title>چالش پنالتی رهوا و کایان ⚽</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#edf5ff;color:#142849;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,sans-serif;line-height:1.8}
+.wrap{width:min(740px,94%);margin:auto}
+header{background:#fff;padding:14px 0;font-weight:900;font-size:18px}
+.hero{margin:14px 0;background:linear-gradient(135deg,#071c45,#155eef,#50c6ff);border-radius:24px;padding:14px;color:white;text-align:center;box-shadow:0 12px 30px #155eef30}
+.family-photo{display:block;width:100%;max-height:330px;object-fit:cover;object-position:center;border-radius:17px;border:3px solid #ffd34f}
+.hero h1{font-size:clamp(27px,6vw,39px);line-height:1.5;margin:12px 0 0}
+.hero p{font-size:19px;font-weight:900;color:#ffdf69;margin:0}
+.panel{background:#fff;border:1px solid #dce8fb;border-radius:20px;padding:14px;margin:14px 0;box-shadow:0 8px 24px #173c700b}
+.controls{display:flex;gap:8px;align-items:end;flex-wrap:wrap}
+.field{flex:1;min-width:150px}
+label{display:block;font-weight:900;font-size:13px}
+input{width:100%;padding:11px;border:1px solid #cbd8eb;border-radius:12px;font:inherit;font-size:16px}
+button{border:0;border-radius:12px;padding:11px 14px;font:inherit;font-weight:900;cursor:pointer}
+.blue{background:#1769ff;color:white}.gold{background:#ffd34f;color:#10254b}.soft{background:#eaf2ff;color:#1769ff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
+.stat{text-align:center;background:#f1f6ff;border-radius:12px;padding:7px 3px}
+.stat span{display:block;font-size:12px;color:#687b98}
+.stat strong{font-size:22px;color:#1769ff}
+.arena{overflow:hidden;border-radius:16px;border:2px solid #d5e7ff;touch-action:none}
+canvas{display:block;width:100%;height:390px;touch-action:none}
+.hint{text-align:center;color:#687b98;font-size:13px}
+.actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+h2{font-size:20px;margin:0}
+.muted{font-size:13px;color:#687b98}
+table{width:100%;border-collapse:collapse}
+td,th{text-align:right;padding:9px 5px;border-bottom:1px solid #e8eef8;font-size:14px}
+th{font-size:12px;color:#687b98}
+tbody tr:first-child{font-weight:900;color:#1769ff}
+footer{text-align:center;color:#687b98;font-size:12px;padding:12px}
+@media(max-width:480px){canvas{height:360px}.panel{padding:11px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">⚽ چالش پنالتی رهوا و کایان</div></header>
+<main class="wrap">
+<section class="hero">
+<img class="family-photo" src="family-banner.jpg" alt="رهوا، کایان و پدرشان در استادیوم فوتبال">
+<h1>بازی کن، اول شو، جایزتو ببر! 🏆</h1>
+<p>۴۵ ثانیه فرصت داری تا قهرمان پنالتی بشی!</p>
+</section>
+
+<section class="panel">
+<div class="controls">
+<div class="field">
+<label for="player">اسم یا لقب بازیکن</label>
+<input id="player" maxlength="18" placeholder="مثلاً سلطان پنالتی" autocomplete="nickname">
+</div>
+<button id="start" class="blue">شروع بازی ▶</button>
+</div>
+<div class="stats">
+<div class="stat"><span>گل‌ها</span><strong id="score">۰</strong></div>
+<div class="stat"><span>زمان باقی‌مانده</span><strong id="time">۴۵</strong></div>
+<div class="stat"><span>مهار دروازه‌بان</span><strong id="saved">۰</strong></div>
+</div>
+</section>
+
+<section class="panel">
+<div class="arena"><canvas id="game" aria-label="توپ را به عقب بکش و رها کن"></canvas></div>
+<p class="hint" id="hint">اسم بنویس و شروع کن؛ توپ رو به عقب بکش و رها کن تا شوت بزنی!</p>
+<div class="actions">
+<button id="again" class="gold">بازی دوباره ↻</button>
+<button id="refresh" class="soft">تازه‌سازی جدول ↻</button>
+</div>
+</section>
+
+<section class="panel">
+<h2>🏆 جدول قهرمان‌های پنالتی</h2>
+<p id="status" class="muted">در حال دریافت جدول آنلاین…</p>
+<table>
+<thead><tr><th>رتبه</th><th>بازیکن</th><th>گل</th></tr></thead>
+<tbody id="board"><tr><td colspan="3">در حال بارگذاری…</td></tr></tbody>
+</table>
+<p class="muted">از اسم مستعار استفاده کن و اطلاعات شخصی وارد نکن.</p>
+</section>
+</main>
+<footer>رهوا و کایان منتظر قهرمان بعدی‌اند! 💙⚽</footer>
+
+<script>
+(()=>{
+const URL='https://qgaoztxxpgnuizvcdonq.supabase.co';
+const KEY='sb_publishable_Jz6HPZde-PpPaNdmsNnVOg_sJFWDE5f';
+const $=id=>document.getElementById(id);
+const c=$('game'),ctx=c.getContext('2d');
+let W=320,H=360,dpr=1,running=false,score=0,saved=0,seconds=45,startAt=0,raf=0,ball,drag=null,shot=false,flash='',flashUntil=0,keeper=.5;
+const fa=n=>String(n).replace(/[0-9]/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d]);
+function goal(){return{x:W*.5,y:H*.24,w:W*.7,h:H*.19}}
+function resetBall(){ball={x:W*.5,y:H*.83,r:Math.max(12,W*.04),vx:0,vy:0};drag=null;shot=false}
+function resize(){let r=c.getBoundingClientRect();dpr=Math.min(devicePixelRatio||1,2);W=r.width;H=r.height;c.width=W*dpr;c.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);resetBall();draw()}
+function rr(x,y,w,h,r,col){ctx.fillStyle=col;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+function draw(){
+ctx.clearRect(0,0,W,H);
+let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#8acaff');g.addColorStop(.5,'#e7f5ff');g.addColorStop(1,'#26965b');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+ctx.fillStyle='#164a8d';ctx.fillRect(0,0,W,H*.13);
+for(let i=0;i<W/14;i++){ctx.fillStyle=['#ffd34f','#fff','#65b7ff','#ef6688'][i%4];ctx.beginPath();ctx.arc(i*14+5,H*.05,3,0,7);ctx.fill()}
+for(let i=0;i<5;i++){ctx.fillStyle=i%2?'#35a66c':'#29965e';ctx.fillRect(0,H*.59+i*H*.09,W,H*.09)}
+ctx.strokeStyle='#ffffffd0';ctx.lineWidth=2;ctx.strokeRect(W*.12,H*.12,W*.76,H*.4);ctx.strokeRect(W*.28,H*.12,W*.44,H*.23);
+let q=goal(),x=q.x-q.w/2;
+ctx.fillStyle='#ffffff35';ctx.fillRect(x,q.y,q.w,q.h);ctx.strokeStyle='#fff';ctx.lineWidth=5;ctx.strokeRect(x,q.y,q.w,q.h);
+ctx.strokeStyle='#ffffff90';ctx.lineWidth=1;
+for(let i=1;i<9;i++){ctx.beginPath();ctx.moveTo(x+i*q.w/9,q.y);ctx.lineTo(x+i*q.w/9,q.y+q.h);ctx.stroke()}
+for(let i=1;i<5;i++){ctx.beginPath();ctx.moveTo(x,q.y+i*q.h/5);ctx.lineTo(x+q.w,q.y+i*q.h/5);ctx.stroke()}
+keeper=.5+Math.sin(performance.now()*(.0015+score*.00018))*Math.min(.31,.15+score*.008);
+let kx=W*keeper,ky=q.y+q.h*.59,kw=Math.max(44,W*.17),kh=H*.065;
+rr(kx-kw/2,ky-kh/2,kw,kh,kh/2,'#09265a');
+ctx.fillStyle='#ffd34f';ctx.beginPath();ctx.arc(kx-kw*.4,ky,kh*.3,0,7);ctx.arc(kx+kw*.4,ky,kh*.3,0,7);ctx.fill();
+ctx.fillStyle='white';ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.fillText('GK',kx,ky+4);
+if(drag&&!shot){ctx.setLineDash([5,5]);ctx.strokeStyle='#09265a';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(ball.x,ball.y);ctx.lineTo(ball.x-(drag.x-drag.sx)*.75,ball.y-(drag.y-drag.sy)*.75);ctx.stroke();ctx.setLineDash([])}
+ctx.fillStyle='white';ctx.beginPath();ctx.arc(ball.x,ball.y,ball.r,0,7);ctx.fill();ctx.strokeStyle='#17365f';ctx.lineWidth=2;ctx.stroke();
+ctx.fillStyle='#17365f';for(let i=0;i<5;i++){let a=i*6.283/5;ctx.beginPath();ctx.arc(ball.x+Math.cos(a)*ball.r*.45,ball.y+Math.sin(a)*ball.r*.45,ball.r*.18,0,7);ctx.fill()}
+if(flash&&performance.now()<flashUntil){rr(W*.2,H*.36,W*.6,42,13,'#09265aeb');ctx.fillStyle='white';ctx.font='bold 18px sans-serif';ctx.fillText(flash,W*.5,H*.36+27)}
+if(!running){rr(W*.14,H*.49,W*.72,44,13,'#09265add');ctx.fillStyle='white';ctx.font='bold 15px sans-serif';ctx.fillText(seconds===0?'وقت تموم شد!':'برای شروع آماده‌ای؟',W*.5,H*.49+28)}
+}
+function update(){$('score').textContent=fa(score);$('saved').textContent=fa(saved);$('time').textContent=fa(seconds)}
+function start(){if(running)return;score=0;saved=0;seconds=45;running=true;startAt=performance.now();resetBall();update();$('hint').textContent='توپ رو به عقب بکش و رها کن؛ هر گل یک امتیازه!';cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)}
+function result(){
+let q=goal(),kx=W*keeper,ky=q.y+q.h*.59,kw=Math.max(44,W*.17);
+let target=ball.x>q.x-q.w*.46&&ball.x<q.x+q.w*.46;
+let blocked=Math.abs(ball.x-kx)<kw*.65&&Math.abs(ball.y-ky)<H*.06;
+if(target&&!blocked){score++;flash='گــــل! ⚽'}else{saved++;flash=blocked?'دروازه‌بان گرفت! 🧤':'بیرون رفت!'}
+flashUntil=performance.now()+850;update();resetBall()
+}
+function loop(t){if(!running)return;seconds=Math.max(0,45-Math.floor((t-startAt)/1000));update();if(seconds<=0){running=false;seconds=0;update();$('hint').textContent=`بازی تموم شد! ${fa(score)} گل زدی.`;draw();save();return}
+if(shot){ball.x+=ball.vx;ball.y+=ball.vy;if(ball.y<goal().y+goal().h*.7||ball.x<-20||ball.x>W+20||ball.y<0)result()}
+draw();raf=requestAnimationFrame(loop)}
+function pos(e){let r=c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+c.addEventListener('pointerdown',e=>{if(!running||shot)return;let p=pos(e);if(Math.hypot(p.x-ball.x,p.y-ball.y)<ball.r*2.8){drag={sx:p.x,sy:p.y,x:p.x,y:p.y};c.setPointerCapture(e.pointerId);e.preventDefault()}});
+c.addEventListener('pointermove',e=>{if(drag){let p=pos(e);drag.x=p.x;drag.y=p.y;draw();e.preventDefault()}});
+c.addEventListener('pointerup',e=>{if(!drag)return;let dx=drag.sx-drag.x,dy=drag.sy-drag.y;if(Math.hypot(dx,dy)>10){shot=true;ball.vx=Math.max(-8,Math.min(8,dx*.14));ball.vy=-Math.max(5,Math.min(12,Math.abs(dy)*.12+3))}drag=null;e.preventDefault()});
+async function save(){
+let name=($('player').value.trim()||'قهرمان بی‌نام').replace(/[<>]/g,'').slice(0,18);
+$('status').textContent='در حال ثبت رکورد آنلاین…';
+try{let r=await fetch(URL+'/rest/v1/football_scores',{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json',Prefer:'return=minimal'},body:JSON.stringify({player_name:name,score})});if(!r.ok)throw Error();$('status').textContent='رکورد ثبت شد!';await board()}catch(e){$('status').textContent='جدول آنلاین هنوز تنظیم نشده؛ فایل SQL راهنما را اجرا کن.'}
+}
+function esc(s){return String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+async function board(){
+try{let r=await fetch(URL+'/rest/v1/football_scores?select=player_name,score,created_at&order=score.desc,created_at.asc&limit=10',{headers:{apikey:KEY,Authorization:'Bearer '+KEY}});if(!r.ok)throw Error();let a=await r.json();$('board').innerHTML=a.length?a.map((v,i)=>`<tr><td>${['🥇','🥈','🥉',...Array.from({length:7},(_,j)=>fa(j+4))][i]}</td><td>${esc(v.player_name)}</td><td>${fa(v.score)}</td></tr>`).join(''):'<tr><td colspan="3">هنوز رکوردی ثبت نشده.</td></tr>';$('status').textContent='جدول مشترک رکوردهای فوتبال'}catch(e){$('status').textContent='جدول آنلاین هنوز ساخته نشده.'}}
+$('start').onclick=start;$('again').onclick=start;$('refresh').onclick=board;window.addEventListener('resize',resize);resize();board();update()
+})();
+</script>
+</body>
+</html>
