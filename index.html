@@ -3,331 +3,158 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>جام پنالتی رهوا و کایان</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#071b13;color:white;font-family:Tahoma,Arial,sans-serif;text-align:center}
-header{padding:14px;background:linear-gradient(135deg,#092d20,#145a32)}
-.family-photo{width:100%;max-height:290px;object-fit:cover;display:block}
-h1{font-size:clamp(22px,5vw,34px);margin:14px 5px;color:#ffe36b}
-.slogan{font-size:18px;font-weight:bold;color:#fff;margin:12px}
+body{margin:0;background:#071b13;color:#fff;font-family:Tahoma,Arial,sans-serif;text-align:center}
+header{background:linear-gradient(135deg,#092d20,#145a32);padding-bottom:12px}
+.family-photo{width:100%;max-height:280px;object-fit:cover;display:block}
+h1{font-size:27px;color:#ffe36b;margin:15px 5px}
+.slogan{font-size:18px;font-weight:bold;margin:12px;color:#fff}
 .wrap{max-width:760px;margin:auto;padding:12px}
-.players{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.player{background:#143d2a;border:2px solid #377c4f;border-radius:14px;padding:10px 18px;cursor:pointer;font-weight:bold}
-.player.active{background:#ffe36b;color:#10251a;border-color:white}
+.namebox{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:18px}
+input{width:240px;max-width:75vw;padding:14px;border-radius:12px;border:2px solid #4b8c61;background:#f5fff8;font-size:17px;text-align:center}
 .stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:12px}
-.stat{background:#102b20;border-radius:12px;padding:10px 15px;min-width:90px}
-.stat strong{display:block;color:#ffe36b;font-size:25px;margin-top:5px}
-button{border:0;border-radius:12px;padding:13px 20px;font-size:16px;font-weight:bold;cursor:pointer}
+.stat{background:#102f22;border-radius:14px;padding:12px 8px;min-width:100px;flex:1;max-width:155px}
+.stat span{display:block;font-size:16px}
+.stat strong{display:block;color:#ffe36b;font-size:26px;margin-top:7px}
+button{border:0;border-radius:13px;padding:14px 20px;font-size:16px;font-weight:bold;cursor:pointer}
 #start{background:#ffe36b;color:#14271b;margin:8px}
 #reset{background:#ddd;color:#222;margin:8px}
-#game{width:100%;display:block;border:3px solid #d6c68a;border-radius:14px;touch-action:none;background:#287b38}
-.help{font-size:14px;line-height:2;color:#e0f0e4}
-h2{color:#ffe36b}
-table{width:100%;border-collapse:collapse;background:#102b20;border-radius:12px;overflow:hidden}
+#message{min-height:34px;font-weight:bold;color:#ffe36b;margin:10px;font-size:17px}
+.game-shell{border:4px solid #d6c68a;border-radius:22px;overflow:hidden;background:#26763a}
+canvas{width:100%;display:block;touch-action:none}
+.help{font-size:14px;line-height:2.1;color:#e0f0e4}
+h2{color:#ffe36b;margin-top:30px}
+table{width:100%;border-collapse:collapse;background:#102f22;border-radius:12px;overflow:hidden}
 td,th{padding:10px;border-bottom:1px solid #315440}
 th{color:#ffe36b}
-#message{min-height:30px;font-weight:bold;color:#ffe36b;margin:8px}
 footer{font-size:12px;color:#b9d0c0;padding:20px}
 </style>
 </head>
 <body>
 <header>
-<img class="family-photo" src="E833493A-CFCE-471A-B94B-3002F03C4117.png" alt="رهوا، کایان و پدرشان در استادیوم فوتبال">
+<img class="family-photo" src="E833493A-CFCE-471A-B94B-3002F03C4117.png" alt="عکس خانوادگی">
 <h1>🏆 جام پنالتی رهوا و کایان 🏆</h1>
 <div class="slogan">بازی کن، اول شو، جایزتو ببر!</div>
 </header>
-
 <div class="wrap">
-<h2>بازیکن رو انتخاب کن</h2>
-<div class="players">
-<button class="player active" id="rahva">⭐ رهوا</button>
-<button class="player" id="kayan">⚡ کایان</button>
+<div class="namebox">
+<label for="playerName">اسم بازیکن:</label>
+<input id="playerName" maxlength="18" placeholder="اسم خودت رو بنویس">
 </div>
-
 <div class="stats">
-<div class="stat">زمان<strong id="time">۴۵</strong></div>
-<div class="stat">گل‌ها<strong id="goals">۰</strong></div>
-<div class="stat">شوت‌ها<strong id="shots">۰</strong></div>
-<div class="stat">درصد گل<strong id="percent">۰٪</strong></div>
+<div class="stat"><span>زمان</span><strong id="time">۳۰</strong></div>
+<div class="stat"><span>گل‌ها</span><strong id="goals">۰</strong></div>
+<div class="stat"><span>شوت‌ها</span><strong id="shots">۰</strong></div>
+<div class="stat"><span>درصد گل</span><strong id="percent">۰٪</strong></div>
 </div>
-
 <button id="start">⚽ شروع مسابقه</button>
 <button id="reset">شروع دوباره</button>
-<div id="message">بازیکن رو انتخاب کن و شروع مسابقه رو بزن!</div>
-
-<canvas id="game" width="600" height="430"></canvas>
-
+<div id="message">اسمت رو بنویس و شروع مسابقه رو بزن!</div>
+<div class="game-shell"><canvas id="game" width="600" height="600"></canvas></div>
 <p class="help">
-⚽ برای شوت، روی توپ انگشتت رو بگذار، به سمت عقب بکش و رها کن.<br>
-🎯 جهت و قدرت کشیدن انگشت، مسیر و قدرت شوت رو تعیین می‌کنه.<br>
-🧤 دروازه‌بان حرکت می‌کنه و با زیاد شدن گل‌ها سریع‌تر می‌شه.<br>
-⏱️ هر مسابقه ۴۵ ثانیه است.
+⚽ انگشتت رو روی توپ بگذار، به عقب بکش و رها کن.<br>
+🎯 کشیدن بیشتر، قدرت شوت رو بیشتر می‌کنه.<br>
+🧤 دروازه‌بان حرفه‌ای‌تر و سریع‌تره و شیرجه می‌زنه.<br>
+⏱️ هر مسابقه ۳۰ ثانیه است.
 </p>
-
 <h2>🥇 جدول امتیازات</h2>
-<div id="board">جدول امتیازات در حال آماده‌سازی است.</div>
-<p class="help">امتیازهای آنلاین پس از اتصال پایگاه داده نمایش داده می‌شوند.</p>
+<div id="board">در حال اتصال به جدول آنلاین...</div>
 </div>
-<footer>ساخته‌شده برای رقابت دوستانه رهوا و کایان ❤️</footer>
-
+<footer>ساخته‌شده برای رقابت دوستانه ❤️</footer>
 <script>
-const canvas=document.getElementById('game');
-const ctx=canvas.getContext('2d');
-const $=id=>document.getElementById(id);
-
-let player='رهوا',playing=false,time=45,goals=0,shots=0;
-let keeperX=300,keeperDir=1,keeperSpeed=2;
-let ball={x:300,y:365,r:10};
-let shot=null,animation=null,timer=null,lastShot=0;
-let startX=0,startY=0,dragging=false;
-let saved=false;
-
+const c=document.getElementById('game'),x=c.getContext('2d'),$=id=>document.getElementById(id);
+let player='',playing=false,time=30,goals=0,shots=0,kx=300,kd=1,ks=4.5,ball={x:300,y:510,r:13},shot=null,drag=false,sx=0,sy=0,ax=0,ay=0,raf=0,timer=null,last=0,dive=0,dd=1;
+const goal={x:105,y:82,w:390,h:132};
 function fa(n){return String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[d])}
-function goal(){return {x:105,y:75,w:390,h:125}}
-function selectPlayer(name){
- if(playing)return;
- player=name;
- $('rahva').classList.toggle('active',name==='رهوا');
- $('kayan').classList.toggle('active',name==='کایان');
- $('message').textContent='بازیکن انتخاب‌شده: '+player;
- draw();
+function stats(){$('time').textContent=fa(time);$('goals').textContent=fa(goals);$('shots').textContent=fa(shots);$('percent').textContent=fa(shots?Math.round(goals/shots*100):0)+'٪'}
+function rr(a,b,w,h,r,fill,stroke){x.beginPath();x.roundRect(a,b,w,h,r);if(fill){x.fillStyle=fill;x.fill()}if(stroke){x.strokeStyle=stroke;x.stroke()}}
+function ballDraw(bx,by,r,ang=0){
+ x.save();x.translate(bx,by);x.rotate(ang);
+ x.fillStyle='#0004';x.beginPath();x.ellipse(4,r*.8,r,r*.4,0,0,7);x.fill();
+ let g=x.createRadialGradient(-r*.4,-r*.4,1,0,0,r*1.2);g.addColorStop(0,'white');g.addColorStop(.75,'#e3e8eb');g.addColorStop(1,'#929b9f');
+ x.fillStyle=g;x.beginPath();x.arc(0,0,r,0,7);x.fill();x.strokeStyle='#222';x.lineWidth=2;x.stroke();
+ x.fillStyle='#202629';x.beginPath();
+ for(let i=0;i<5;i++){let a=-Math.PI/2+i*2*Math.PI/5,px=Math.cos(a)*r*.33,py=Math.sin(a)*r*.33;i?x.lineTo(px,py):x.moveTo(px,py)}
+ x.closePath();x.fill();
+ for(let i=0;i<5;i++){let a=-Math.PI/2+i*2*Math.PI/5,px=Math.cos(a)*r*.68,py=Math.sin(a)*r*.68;x.beginPath();x.arc(px,py,r*.13,0,7);x.fill()}
+ x.restore()
 }
-$('rahva').onclick=()=>selectPlayer('رهوا');
-$('kayan').onclick=()=>selectPlayer('کایان');
-
+function keeper(){
+ x.save();x.translate(kx+dd*dive*25,144);
+ x.lineCap='round';x.strokeStyle='#172c8a';x.lineWidth=17;
+ x.beginPath();x.moveTo(-10,35);x.lineTo(-19,64);x.moveTo(10,35);x.lineTo(19,64);x.stroke();
+ x.strokeStyle='#111';x.lineWidth=12;x.beginPath();x.moveTo(-19,64);x.lineTo(-28,66);x.moveTo(19,64);x.lineTo(28,66);x.stroke();
+ let g=x.createLinearGradient(-30,0,30,40);g.addColorStop(0,'#ffe96b');g.addColorStop(1,'#dc8d00');
+ rr(-28,-8,56,49,9,g,'#fff1a0');
+ x.strokeStyle='#ffd3ad';x.lineWidth=13;x.beginPath();x.moveTo(-24,2);x.lineTo(-45,15);x.moveTo(24,2);x.lineTo(45,15);x.stroke();
+ x.fillStyle='#15c99d';x.beginPath();x.arc(-47,17,11,0,7);x.arc(47,17,11,0,7);x.fill();
+ x.fillStyle='#f3bd91';x.fillRect(-7,-16,14,12);x.beginPath();x.arc(0,-28,19,0,7);x.fill();
+ x.fillStyle='#27201d';x.beginPath();x.arc(0,-33,19,Math.PI,2*Math.PI);x.fill();
+ x.fillStyle='#222';x.beginPath();x.arc(-6,-27,2,0,7);x.arc(6,-27,2,0,7);x.fill();
+ x.restore()
+}
 function draw(){
- const w=canvas.width,h=canvas.height;
- ctx.clearRect(0,0,w,h);
- let g=ctx.createLinearGradient(0,0,0,h);
- g.addColorStop(0,'#4aa94c');g.addColorStop(1,'#12602c');
- ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
-
- // چمن و خطوط زمین
- ctx.globalAlpha=.12;
- for(let i=0;i<8;i++){
-  ctx.fillStyle=i%2?'#fff':'#000';
-  ctx.fillRect(i*w/8,0,w/8,h);
- }
- ctx.globalAlpha=1;
- ctx.strokeStyle='rgba(255,255,255,.65)';ctx.lineWidth=3;
- ctx.beginPath();ctx.moveTo(30,430);ctx.lineTo(140,220);ctx.lineTo(460,220);ctx.lineTo(570,430);ctx.stroke();
- ctx.beginPath();ctx.arc(300,220,55,0,Math.PI*2);ctx.stroke();
-
- const q=goal();
- ctx.fillStyle='#e9e9e9';ctx.fillRect(q.x,q.y,q.w,q.h);
- ctx.strokeStyle='#fff';ctx.lineWidth=7;ctx.strokeRect(q.x,q.y,q.w,q.h);
- ctx.strokeStyle='#7b8a89';ctx.lineWidth=2;
- for(let x=q.x+15;x<q.x+q.w;x+=25){
-  ctx.beginPath();ctx.moveTo(x,q.y);ctx.lineTo(x,q.y+q.h);ctx.stroke();
- }
- for(let y=q.y+15;y<q.y+q.h;y+=22){
-  ctx.beginPath();ctx.moveTo(q.x,y);ctx.lineTo(q.x+q.w,y);ctx.stroke();
- }
-
- // دروازه‌بان
- let kx=keeperX,ky=130;
- ctx.fillStyle='#172c8a';
- ctx.fillRect(kx-29,ky-5,58,48);
- ctx.fillStyle='#ffd7ae';
- ctx.beginPath();ctx.arc(kx,ky-17,18,0,Math.PI*2);ctx.fill();
- ctx.fillStyle='#111';ctx.fillRect(kx-18,ky-24,36,8);
- ctx.strokeStyle='#ffd7ae';ctx.lineWidth=12;ctx.lineCap='round';
- ctx.beginPath();ctx.moveTo(kx-22,ky+5);ctx.lineTo(kx-45,ky+20);
- ctx.moveTo(kx+22,ky+5);ctx.lineTo(kx+45,ky+20);ctx.stroke();
- ctx.strokeStyle='#172c8a';ctx.lineWidth=13;
- ctx.beginPath();ctx.moveTo(kx-12,ky+42);ctx.lineTo(kx-18,ky+68);
- ctx.moveTo(kx+12,ky+42);ctx.lineTo(kx+18,ky+68);ctx.stroke();
-
- // توپ یا شوت در حال حرکت
- let bx=shot?shot.x:ball.x,by=shot?shot.y:ball.y;
- ctx.fillStyle='rgba(0,0,0,.25)';
- ctx.beginPath();ctx.ellipse(bx+3,by+7,12,5,0,0,Math.PI*2);ctx.fill();
- ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(bx,by,ball.r,0,Math.PI*2);ctx.fill();
- ctx.strokeStyle='#222';ctx.lineWidth=2;ctx.stroke();
- ctx.fillStyle='#222';
- ctx.beginPath();ctx.moveTo(bx,by-5);ctx.lineTo(bx+5,by-1);ctx.lineTo(bx+3,by+5);ctx.lineTo(bx-4,by+5);ctx.lineTo(bx-5,by-1);ctx.closePath();ctx.fill();
-
- if(dragging){
-  ctx.strokeStyle='#ffe36b';ctx.lineWidth=5;ctx.setLineDash([8,7]);
-  ctx.beginPath();ctx.moveTo(ball.x,ball.y);ctx.lineTo(ball.x+(ball.x-startX)*1.6,ball.y+(ball.y-startY)*1.6);ctx.stroke();
-  ctx.setLineDash([]);
- }
- if(!playing&&!shot){
-  ctx.fillStyle='rgba(0,0,0,.45)';ctx.fillRect(130,270,340,42);
-  ctx.fillStyle='#fff';ctx.font='bold 19px Tahoma';ctx.textAlign='center';
-  ctx.fillText('توپ را به عقب بکش و رها کن',300,298);
- }
+ x.clearRect(0,0,600,600);
+ let g=x.createLinearGradient(0,0,0,600);g.addColorStop(0,'#5bb55c');g.addColorStop(1,'#075126');x.fillStyle=g;x.fillRect(0,0,600,600);
+ for(let i=0;i<8;i++){x.fillStyle=i%2?'#ffffff12':'#0000000c';x.fillRect(i*75,0,75,600)}
+ x.strokeStyle='#ffffffb0';x.lineWidth=3;x.beginPath();x.moveTo(35,600);x.lineTo(150,300);x.lineTo(450,300);x.lineTo(565,600);x.stroke();x.beginPath();x.arc(300,300,58,0,7);x.stroke();
+ x.fillStyle='#0003';x.fillRect(goal.x+5,goal.y+7,goal.w,goal.h);x.fillStyle='#f1f2ee';x.fillRect(goal.x,goal.y,goal.w,goal.h);x.strokeStyle='white';x.lineWidth=8;x.strokeRect(goal.x,goal.y,goal.w,goal.h);
+ x.strokeStyle='#879793';x.lineWidth=2.5;
+ for(let a=goal.x+15;a<goal.x+goal.w;a+=25){x.beginPath();x.moveTo(a,goal.y);x.lineTo(a,goal.y+goal.h);x.stroke()}
+ for(let a=goal.y+16;a<goal.y+goal.h;a+=22){x.beginPath();x.moveTo(goal.x,a);x.lineTo(goal.x+goal.w,a);x.stroke()}
+ keeper();
+ if(drag){x.strokeStyle='#fff28a';x.lineWidth=4;x.setLineDash([9,8]);x.beginPath();x.moveTo(ball.x,ball.y);x.lineTo(ball.x+(ball.x-ax)*1.2,ball.y+(ball.y-ay)*1.2);x.stroke();x.setLineDash([])}
+ if(shot&&shot.trail){shot.trail.forEach((p,i)=>{x.globalAlpha=(i+1)/shot.trail.length*.2;x.fillStyle='white';x.beginPath();x.arc(p.x,p.y,Math.max(2,shot.r*(i+1)/shot.trail.length),0,7);x.fill()});x.globalAlpha=1}
+ ballDraw(shot?shot.x:ball.x,shot?shot.y:ball.y,shot?shot.r:ball.r,shot?shot.angle:0);
+ if(!playing&&!shot){rr(130,375,340,48,14,'#0007');x.fillStyle='white';x.font='bold 18px Tahoma';x.textAlign='center';x.fillText('توپ را بکش و شوت کن',300,405)}
 }
-
-function updateStats(){
- $('time').textContent=fa(time);
- $('goals').textContent=fa(goals);
- $('shots').textContent=fa(shots);
- $('percent').textContent=fa(shots?Math.round(goals/shots*100):0)+'٪';
-}
-
-function startGame(){
- clearInterval(timer);cancelAnimationFrame(animation);
- playing=true;time=45;goals=0;shots=0;saved=false;shot=null;
- ball={x:300,y:365,r:10};keeperX=300;keeperDir=1;
- keeperSpeed=2;
- $('message').textContent='بزن بریم! گل بزن! ⚽';
- $('start').disabled=true;$('start').style.opacity='.5';
- updateStats();
- timer=setInterval(()=>{
-  if(!playing)return;
-  time--;updateStats();
-  if(time<=0)endGame();
- },1000);
- loop();
-}
-
-function loop(){
- if(!playing&&!shot){draw();return;}
- if(playing){
-  keeperX+=keeperDir*keeperSpeed;
-  if(keeperX>455){keeperX=455;keeperDir=-1}
-  if(keeperX<145){keeperX=145;keeperDir=1}
- }
+function loop(ts){
+ if(!playing&&!shot){draw();return}
+ let dt=last?Math.min((ts-last)/1000,.04):.016;last=ts;
+ if(playing){kx+=kd*ks*dt*60;if(kx>455){kx=455;kd=-1}if(kx<145){kx=145;kd=1}if(Math.random()<.02)kd*=-1;dive=Math.max(0,dive-dt*1.3)}
  if(shot){
-  shot.x+=shot.vx;shot.y+=shot.vy;
-  shot.vx*=.992;shot.vy*=.992;
-  const q=goal();
-  if(shot.y<q.y+q.h-5){
-   const onGoal=shot.x>q.x+5&&shot.x<q.x+q.w-5;
-   const savedShot=Math.abs(shot.x-keeperX)<48&&shot.y>q.y+5;
-   if(onGoal&&!savedShot){
-    goals++;$('message').textContent='⚽ گــــل! آفرین '+player+'!';
-   }else if(savedShot){
-    $('message').textContent='🧤 دروازه‌بان گرفت!';
-   }else{
-    $('message').textContent='❌ بیرون رفت!';
-   }
-   updateStats();shot=null;
-   ball={x:300,y:365,r:10};
-   keeperSpeed=Math.min(5,2+goals*.13);
-   if(time<=0)endGame();
-  }else if(shot.y<15||shot.x<0||shot.x>600){
-   $('message').textContent='❌ شوت بیرون رفت!';
-   shot=null;ball={x:300,y:365,r:10};
-  }
+  shot.trail.push({x:shot.x,y:shot.y});if(shot.trail.length>9)shot.trail.shift();
+  shot.x+=shot.vx;shot.y+=shot.vy;shot.angle+=.2;shot.vx*=.997;shot.vy*=.997;
+  if(shot.y<=goal.y+goal.h){
+   let inside=shot.x>goal.x+12&&shot.x<goal.x+goal.w-12;
+   let caught=inside&&shot.y>goal.y-8&&Math.abs(shot.x-(kx+dd*dive*25))<(dive?64:43);
+   if(inside&&!caught){goals++;$('message').textContent='⚽ گلللل! آفرین '+player+'!'}
+   else if(caught){$('message').textContent='🧤 دروازه‌بان گرفت!';dive=1;dd=shot.x<kx?-1:1}
+   else $('message').textContent='❌ توپ بیرون رفت!';
+   shot=null;ball={x:300,y:510,r:13};ks=Math.min(8,4.5+goals*.18);stats()
+  }else if(shot.y<0||shot.x<-30||shot.x>630){$('message').textContent='❌ شوت بیرون رفت!';shot=null;ball={x:300,y:510,r:13}}
  }
- draw();
- animation=requestAnimationFrame(loop);
+ draw();raf=requestAnimationFrame(loop)
 }
-
-function shoot(dx,dy){
- if(!playing||shot||Date.now()-lastShot<350)return;
- lastShot=Date.now();shots++;
- // کشیدن به عقب، توپ را در جهت مخالف حرکت انگشت پرتاب می‌کند
- let vx=-dx*.16,vy=-Math.max(7,Math.abs(dy)*.17);
- vx=Math.max(-10,Math.min(10,vx));
- shot={x:ball.x,y:ball.y,vx,vy};
- updateStats();
-}
-
-function pointerDown(e){
- if(!playing||shot)return;
- const r=canvas.getBoundingClientRect();
- const x=(e.clientX-r.left)*canvas.width/r.width;
- const y=(e.clientY-r.top)*canvas.height/r.height;
- if(Math.hypot(x-ball.x,y-ball.y)<65||y>300){
-  dragging=true;startX=x;startY=y;
-  canvas.setPointerCapture(e.pointerId);
- }
-}
-function pointerUp(e){
- if(!dragging)return;
- const r=canvas.getBoundingClientRect();
- const x=(e.clientX-r.left)*canvas.width/r.width;
- const y=(e.clientY-r.top)*canvas.height/r.height;
- dragging=false;
- shoot(x-startX,y-startY);
- draw();
-}
-canvas.addEventListener('pointerdown',pointerDown);
-canvas.addEventListener('pointerup',pointerUp);
-canvas.addEventListener('pointercancel',()=>dragging=false);
-
-async function endGame(){
- if(!playing)return;
- playing=false;clearInterval(timer);
- $('start').disabled=false;$('start').style.opacity='1';
- cancelAnimationFrame(animation);draw();
- $('message').textContent='🏁 پایان مسابقه '+player+'! تعداد گل: '+fa(goals);
- if(!saved){saved=true;await saveScore();}
-}
-
-$('start').onclick=()=>{
+function start(){
+ player=$('playerName').value.trim().slice(0,18);
+ if(!player){$('message').textContent='اول اسمت رو بنویس 🙂';$('playerName').focus();return}
  if(playing)return;
- startGame();
-};
-$('reset').onclick=()=>{
- playing=false;clearInterval(timer);cancelAnimationFrame(animation);
- shot=null;ball={x:300,y:365,r:10};
- $('start').disabled=false;$('start').style.opacity='1';
- draw();
-};
-draw();updateStats();
-
-// اتصال جدول آنلاین Supabase
-const SUPABASE_URL='https://qgaoztxxpgnuizvcdonq.supabase.co';
-const SUPABASE_KEY='sb_publishable_Jz6HPZde-PpPaNdmsNnVOg_sJFWDE5f';
-const TABLE='football_scores';
-
-async function api(path,options={}){
- const response=await fetch(SUPABASE_URL+'/rest/v1/'+path,{
-  ...options,
-  headers:{
-   'apikey':SUPABASE_KEY,
-   'Authorization':'Bearer '+SUPABASE_KEY,
-   'Content-Type':'application/json',
-   'Prefer':'return=minimal',
-   ...(options.headers||{})
-  }
- });
- if(!response.ok)throw new Error(await response.text());
- return response.status===204?null:response.json();
+ playing=true;time=30;goals=0;shots=0;shot=null;ball={x:300,y:510,r:13};kx=300;kd=Math.random()<.5?-1:1;ks=5;dive=0;last=0;
+ $('start').disabled=true;$('message').textContent='شروع شد '+player+'! گل بزن ⚽';stats();clearInterval(timer);
+ timer=setInterval(()=>{if(!playing)return;time=Math.max(0,time-1);stats();if(!time)endGame()},1000);
+ cancelAnimationFrame(raf);raf=requestAnimationFrame(loop)
 }
-async function saveScore(){
- try{
-  await api(TABLE,{
-   method:'POST',
-   body:JSON.stringify({player_name:player,score:goals})
-  });
-  $('message').textContent+=' | امتیاز آنلاین ثبت شد.';
-  loadBoard();
- }catch(e){
-  $('message').textContent+=' | جدول آنلاین هنوز تنظیم نشده است.';
- }
+function endGame(){if(!playing)return;playing=false;clearInterval(timer);$('start').disabled=false;$('message').textContent='🏁 پایان مسابقه '+player+'؛ گل: '+fa(goals);saveScore();draw()}
+function reset(){playing=false;clearInterval(timer);cancelAnimationFrame(raf);shot=null;drag=false;time=30;goals=0;shots=0;ball={x:300,y:510,r:13};$('start').disabled=false;$('message').textContent='اسمت رو بنویس و شروع کن!';stats();draw()}
+function down(e){if(!playing||shot)return;let r=c.getBoundingClientRect(),px=(e.clientX-r.left)*600/r.width,py=(e.clientY-r.top)*600/r.height;if(py>360){drag=true;sx=px;sy=py;ax=px;ay=py;c.setPointerCapture(e.pointerId)}}
+function move(e){if(!drag)return;let r=c.getBoundingClientRect();ax=(e.clientX-r.left)*600/r.width;ay=(e.clientY-r.top)*600/r.height;draw()}
+function up(e){
+ if(!drag)return;drag=false;let r=c.getBoundingClientRect(),px=(e.clientX-r.left)*600/r.width,py=(e.clientY-r.top)*600/r.height,dx=px-sx,dy=py-sy,pull=Math.hypot(dx,dy);
+ if(pull<18){$('message').textContent='توپ رو به عقب بکش و رها کن!';draw();return}
+ shots++;let power=Math.min(1.4,Math.max(.8,pull/100));
+ shot={x:ball.x,y:ball.y,vx:Math.max(-10,Math.min(10,-dx*.12*power)),vy=-Math.min(17,Math.max(9,Math.abs(dy)*.11+Math.abs(dx)*.035+8))*power,r:13,angle:0,trail:[]};
+ dd=shot.x<kx?-1:1;kd=dd;ks=Math.min(8.5,5.2+goals*.2+Math.random()*1.5);stats();draw()
 }
-async function loadBoard(){
- try{
-  const rows=await api(TABLE+'?select=player_name,score,created_at&order=score.desc&limit=20');
-  if(!rows||!rows.length){
-   $('board').textContent='هنوز امتیازی ثبت نشده است.';
-   return;
-  }
-  const table=document.createElement('table');
-  const head=document.createElement('tr');
-  ['رتبه','بازیکن','گل'].forEach(t=>{
-   const th=document.createElement('th');th.textContent=t;head.appendChild(th);
-  });
-  table.appendChild(head);
-  rows.forEach((row,i)=>{
-   const tr=document.createElement('tr');
-   [fa(i+1),row.player_name,fa(row.score)].forEach(t=>{
-    const td=document.createElement('td');td.textContent=t;tr.appendChild(td);
-   });
-   table.appendChild(tr);
-  });
-  $('board').replaceChildren(table);
- }catch(e){
-  $('board').textContent='برای جدول مشترک، پایگاه داده آنلاین باید راه‌اندازی شود.';
- }
-}
+$('start').onclick=start;$('reset').onclick=reset;c.addEventListener('pointerdown',down);c.addEventListener('pointermove',move);c.addEventListener('pointerup',up);c.addEventListener('pointercancel',()=>drag=false);
+stats();draw();
+const URL_DB='https://qgaoztxxpgnuizvcdonq.supabase.co',KEY='sb_publishable_Jz6HPZde-PpPaNdmsNnVOg_sJFWDE5f',TABLE='football_scores';
+async function api(path,opt={}){let r=await fetch(URL_DB+'/rest/v1/'+path,{...opt,headers:{apikey:KEY,Authorization:'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal',...(opt.headers||{})}});if(!r.ok)throw Error(await r.text());return r.status===204?null:r.json()}
+async function saveScore(){try{await api(TABLE,{method:'POST',body:JSON.stringify({player_name:player,score:goals})});$('message').textContent+=' | امتیاز ثبت شد';loadBoard()}catch(e){$('message').textContent+=' | جدول آنلاین تنظیم نشده است'}}
+async function loadBoard(){try{let rows=await api(TABLE+'?select=player_name,score&order=score.desc&limit=20');if(!rows.length){$('board').textContent='هنوز امتیازی ثبت نشده است';return}let t=document.createElement('table'),tr=document.createElement('tr');['رتبه','بازیکن','گل'].forEach(v=>{let th=document.createElement('th');th.textContent=v;tr.appendChild(th)});t.appendChild(tr);rows.forEach((a,i)=>{let r=document.createElement('tr');[fa(i+1),a.player_name,fa(a.score)].forEach(v=>{let td=document.createElement('td');td.textContent=v;r.appendChild(td)});t.appendChild(r)});$('board').replaceChildren(t)}catch(e){$('board').textContent='جدول آنلاین پس از تنظیم پایگاه داده فعال می‌شود'}}
 loadBoard();
 </script>
 </body>
